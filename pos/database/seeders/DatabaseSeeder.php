@@ -11,12 +11,12 @@ class DatabaseSeeder extends Seeder
         $this->call([
             KategoriSeeder::class,
             LevelSeeder::class,
-            SupplierSeeder::class,
-            UserSeeder::class,
-            BarangSeeder::class,
-            StokSeeder::class,
-            PenjualanSeeder::class,
-            PenjualanDetailSeeder::class,
+            SupplierSeeder::class,       // supplier harus duluan untuk stok
+            UserSeeder::class,            // user buat relasi stok dan penjualan
+            BarangSeeder::class,          // barang dibutuhkan di stok & penjualan
+            StokSeeder::class,            // stok butuh barang, supplier, user
+            PenjualanSeeder::class,       // penjualan butuh user
+            PenjualanDetailSeeder::class, // detail butuh barang dan penjualan
         ]);
     }
 }
