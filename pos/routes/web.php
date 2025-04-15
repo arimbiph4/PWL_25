@@ -289,6 +289,24 @@ Route::group(['prefix' => 'barang'], function () {
 }); 
 
 
+Route::group(['prefix' => 'Stok'], function () {
+    Route::get('/',[StokController::class, 'index']);
+    Route::post('/list',[StokController::class, 'list']);
+    Route::get('/create',[StokController::class, 'create']);
+    Route::post('/',[StokController::class, 'store']);
+    Route::get('/create_ajax',[StokController::class, 'create_ajax']);
+    Route::post('/ajax',[StokController::class, 'store_ajax']);
+    Route::get('/{id}',[StokController::class, 'show']);
+    Route::get('/{id}/edit',[StokController::class, 'edit']);
+    Route::put('/{id}',[StokController::class, 'update']);
+    Route::get('/{id}/edit_ajax',[StokController::class, 'edit_ajax']);
+    Route::put('/{id}/update_ajax',[StokController::class, 'update_ajax']);
+    Route::delete('/{id}',[StokController::class, 'destroy']);
+    Route::get('/{id}/delete_ajax',[StokController::class, 'confirm_ajax']);
+    Route::delete('/{id}/delete_ajax',[StokController::class, 'delete_ajax']);
+}); 
+
+
 
 
 
@@ -363,11 +381,37 @@ Route::middleware(['authorize:ADM'])->group(function(){
     });
 });
 
+
+Route::middleware(['authorize:ADM'])->group(function(){
+    Route::group(['prefix' => 'stok'], function () {
+        Route::get('/create_ajax',[StokController::class, 'create_ajax']);
+        Route::post('/ajax',[StokController::class, 'store_ajax']);
+        Route::get('/{id}/edit_ajax',[StokController::class, 'edit_ajax']);
+        Route::put('/{id}/update_ajax',[StokController::class, 'update_ajax']);
+        Route::get('/{id}/delete_ajax',[StokController::class, 'confirm_ajax']);
+        Route::delete('/{id}/delete_ajax',[StokController::class, 'delete_ajax']);
+        Route::get('/import', [StokController::class, 'import']); // ajax form upload excel
+        Route::post('/import_ajax', [StokController::class, 'import_ajax']); // ajax import excel
+        Route::get('/export_excel', [StokController::class, 'export_excel']); // export excel
+        Route::get('/export_pdf', [StokController::class, 'export_pdf']); // export pdf
+    });
+
+
+
 Route::middleware(['authorize:ADM,MNG'])->group(function(){
     Route::group(['prefix' => 'supplier'], function () {
         Route::get('/',[SupplierController::class, 'index']);
         Route::post('/list',[SupplierController::class, 'list']);
         Route::get('/{id}',[SupplierController::class, 'show']);
+    });
+});
+
+
+Route::middleware(['authorize:ADM,MNG'])->group(function(){
+    Route::group(['prefix' => 'stok'], function () {
+        Route::get('/',[StokController::class, 'index']);
+        Route::post('/list',[StokController::class, 'list']);
+        Route::get('/{id}',[StokController::class, 'show']);
     });
 });
 
@@ -383,12 +427,9 @@ Route::middleware(['authorize:ADM,MNG,STF'])->group(function(){
         Route::post('/list',[KategoriController::class, 'list']);
         Route::get('/{id}',[KategoriController::class, 'show']);
     });
-
     Route::group(['prefix' => 'user'], function () {
         Route::get('/profile', [UserController::class, 'profile_page']);
         Route::post('/update_picture', [UserController::class, 'update_picture']);
     });
 });
-
-
-
+});
